@@ -68,8 +68,15 @@ So, now I have a few questions in mind:
 
 
 
-##### Creating custom dataset class in pytorch and passing the transformation recipie to the dataset
-##### Now lets create DataLoaders of batchsize = 32(standard lightweight size), we will feed 32 images at a time into the model
-##### Loading the mobileNet model
-##### checking out losses and optimizing based on ADAM -> as it is better for momentum
-##### training the model resulted in quite a good result
+##### 1.  Creating custom dataset class in pytorch and passing the transformation recipie to the dataset
+##### 2. Now lets create DataLoaders of batchsize = 32(standard lightweight size), we will feed 32 images at a time into the model
+##### 3. Loading the mobileNet model
+##### 4. Checking out losses and optimizing based on ADAM -> as it is better for momentum
+##### 5. Training the model resulted in quite a good result
+
+## What I've Accomplished in the Notebook
+1. Data Cleaning: Found and isolated corrupted images.
+2. Data Splitting: Stratified dataset using sklearn.
+3. Data Pipeline: Wrapped everything into PyTorch Dataset and DataLoader classes.
+4. Transfer Learning: Loaded MobileNetV3, froze its base, and swapped the head for a 2-way classifier.
+5. Optimization Loop: Verified the math works and the model is actively learning.
