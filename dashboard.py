@@ -56,7 +56,44 @@ st.markdown("""
     .uploadedFile {
         border-radius: 10px;
     }
+
+    /* --- PSR MONOGRAM BADGE --- */
+    .psr-monogram {
+        position: fixed;
+        top: 14px;
+        right: 18px;
+        z-index: 999;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+        color: #ffffff;
+        background: linear-gradient(135deg, #1A1C1E 0%, #3a3f47 100%);
+        padding: 6px 14px;
+        border-radius: 999px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        opacity: 0.92;
+    }
+
+    /* --- FOOTER CREDIT --- */
+    .psr-footer {
+        text-align: center;
+        margin-top: 3rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid #ececec;
+        color: #9AA0A6;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+    .psr-footer span {
+        font-weight: 700;
+        color: #1A1C1E;
+        letter-spacing: 1.5px;
+    }
     </style>
+
+    <div class="psr-monogram">PSR</div>
     """, unsafe_allow_html=True)
 
 # --- 3. DASHBOARD UI ---
@@ -131,3 +168,9 @@ else:
     # If no file is uploaded, show a friendly placeholder image
     with col1:
         st.image("https://placehold.co/600x400?text=Upload+an+Image+to+Start", use_container_width=True)
+
+# --- 4. FOOTER CREDIT ---
+st.markdown(
+    "<div class='psr-footer'>Designed &amp; Engineered by <span>Pankaj Singh Rawat</span></div>",
+    unsafe_allow_html=True
+)
