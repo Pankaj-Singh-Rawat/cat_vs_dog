@@ -1,8 +1,12 @@
 import io
+import os
 import torch
 import torch.nn.functional as F
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from PIL import Image
+
+# supabase for cloud
+from supabase import create_client, Client
 
 
 from src.model import get_model
@@ -13,6 +17,15 @@ app = FastAPI(
     description="A production-ready deep learning API using MobileNetV3.",
     version="1.0.0"
 )
+
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+supabase: Client = None
+
+if SUPABASE_URL and SUPABASE_KEY:
+    supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    print("⚡ Supabase Client initialized successfully!")
 
 # checks for gpu, default = cpu
 device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
@@ -49,6 +62,18 @@ async def predict_image(file: UploadFile = File(...)):
     try:
         # Read the raw byte data from incoming request
         image_bytes = await file.read()
+
+        # Automation: Log and archive the incoming image directly to Supabase Storage if configured
+        if supabase:
+            try:
+                # Uploads to a bucket named 'prediction-logs'
+                supabase.storage.from_("prediction-logs").upload(
+                    path=f"incoming/{file.filename}",
+                    file=image_bytes,
+                    file_options={"content-type": file.content_type}
+                )
+            except Exception as storage_err:
+                print(f"⚠️ Supabase logging skipped: {str(storage_err)}")
 
         # Open and force standard 3-channel RGB format
         image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
